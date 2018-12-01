@@ -1,0 +1,49 @@
+public Program()
+{
+// https://forum.keenswh.com/threads/pb-scripting-guide-how-to-use-self-updating.7398267
+
+// The constructor, called only once every session and always before any other method is called.
+// Use it to initialize your script.
+// The constructor is optional and can be removed if not needed.
+// It's recommended to set RuntimeInfo.UpdateFrequency here, which will allow your script to run itself without a timer block.
+
+// Runtime.UpdateFrequency = UpdateFrequency.None; // Disable self-execution.
+// Runtime.UpdateFrequency = UpdateFrequency.Once; // Run on the next tick, then remove.
+// Runtime.UpdateFrequence = UpdateFrequency.Update1; // Every tick.
+// Runtime.UpdateFrequency = UpdateFrequency.Update10; // Every 10th tick.
+// Runtime.UpdateFrequency = UpdateFrequency.Update100; // Every 100th tick.
+
+// Runtime.UpdateFrequency = UpdateFrequency.Update1 | UpdateFrequency.Update10; // every tick and every 10th tick
+
+}
+
+public void Save()
+{
+    // Called when the program needs to save its state. Use this method to save your state to the Storage field or some other means. 
+    // This method is optional and can be removed if not needed.
+}
+
+public void Main(string argument, UpdateType updateSource)
+{
+ // The main entry point of the script, invoked every time one of the programmable block's Run actions are invoked,
+ // or the script updates itself. The updateSource argument describes where the update came from.
+ // The method itself is required, but the arguments above can be removed if not needed.
+
+IMyTextPanel panel = (IMyTextPanel)GridTerminalSystem.GetBlockWithName("LCDp1");
+IMyTextPanel lcd2 = (IMyTextPanel)GridTerminalSystem.GetBlockWithName("LCDC1");
+
+List<ITerminalAction> actions = new List<ITerminalAction>();
+
+// panel.WritePublicText(System.DateTime.UtcNow.ToString());
+((IMyTextPanel)GridTerminalSystem.GetBlockWithName("LCDC1")).WritePublicText(System.DateTime.UtcNow.ToString());
+
+lcd2.GetActions(actions);
+foreach (var action in actions)
+{
+    Echo(action.Id + " " + action.Name);
+    Echo(" --- --- ---");
+
+}
+
+}
+
